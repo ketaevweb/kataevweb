@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Заявка с формы «Обсудить проект».
+// На реальном проекте данные можно слать в Telegram-бота или Web3Forms (см. статью),
+// но чтобы демо работало сразу — сохраняем локально в SQLite.
+model Lead {
+  id        String   @id @default(cuid())
+  name      String   // имя клиента
+  contact   String   // telegram / телефон / email
+  message   String   // описание задачи
+  createdAt DateTime @default(now())
+}
