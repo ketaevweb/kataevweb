@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { db } from "@/lib/db";
+import { db, ensureLeadTable } from "@/lib/db";
 import { sendLeadToTelegram } from "@/lib/telegram";
 
 /**
@@ -51,7 +51,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: firstError }, { status: 400 });
     }
 
-    // Канал 1 (всегда): база данных
+    // Канал 1 (всегда): база данных.
+    // ensureLeadTable: на serverless (Vercel) таблицы может не быть — создаём.
+    await ensureLeadTable();
     const lead = await db.lead.create({
       data: parsed.data,
     });
@@ -78,10 +80,12 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Неверный PIN" }, { status: 401 });
   }
 
-  const leads = await db.lead.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 50,
-  });
+  const leads = await ensureLeadTable().then(() =>
+    db.lead.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 50,
+    })
+  );
 
   return NextResponse.json({ leads });
 }
@@ -97,11 +101,13 @@ export async function DELETE(request: Request) {
   }
 
   if (id === "all") {
+    await ensureLeadTable();
     const result = await db.lead.deleteMany({});
     return NextResponse.json({ ok: true, deleted: result.count });
   }
 
   try {
+    await ensureLeadTable();
     await db.lead.delete({ where: { id } });
     return NextResponse.json({ ok: true });
   } catch {
