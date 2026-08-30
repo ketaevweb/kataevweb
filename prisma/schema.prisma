@@ -1,5 +1,7 @@
 generator client {
   provider = "prisma-client-js"
+  // native — локальная разработка; rhel/debian — окружение сборки Vercel
+  binaryTargets = ["native", "rhel-openssl-3.0.x", "debian-openssl-3.0.x"]
 }
 
 datasource db {
