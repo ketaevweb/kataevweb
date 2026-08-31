@@ -146,8 +146,8 @@ const rawCases: RawCase[] = [
       "Лендинг спешелти-кофейни: меню и завтраки, галерея зала, отзывы с Яндекс Карт и бронирование столика онлайн.",
     tags: ["Next.js", "Tailwind", "Бронь онлайн"],
     image: "/portfolio/coffee.webp",
-    vercel: "https://coffee-hazel-tau.vercel.app",
-    domain: "https://coffee.kataevweb.ru",
+    vercel: "https://zerno-coffee-psi.vercel.app",
+    domain: "https://zerno.kataevweb.ru",
   },
   {
     title: "Барбершоп «Бритва»",
@@ -156,7 +156,7 @@ const rawCases: RawCase[] = [
       "Сайт барбершопа: прайс на услуги, карточки мастеров, отзывы клиентов и онлайн-запись в два клика.",
     tags: ["Next.js", "Tailwind", "Онлайн-запись"],
     image: "/portfolio/barber.webp",
-    vercel: "https://barber-six-beta.vercel.app",
+    vercel: "https://britva-barbershop-one.vercel.app",
     domain: "https://barber.kataevweb.ru",
   },
   {
@@ -166,7 +166,7 @@ const rawCases: RawCase[] = [
       "Лендинг автосервиса: акции, этапы ремонта, прайс по маркам авто и форма «перезвоним за 15 минут».",
     tags: ["Next.js", "SEO", "Заявки"],
     image: "/portfolio/auto.webp",
-    vercel: "https://auto-theta-hazel.vercel.app",
+    vercel: "https://autoservice-site.vercel.app",
     domain: "https://auto.kataevweb.ru",
   },
   {
@@ -176,7 +176,7 @@ const rawCases: RawCase[] = [
       "Сайт-портфолио фотографа: галерея работ, пакеты съёмки с ценами, FAQ и заявка на свободные даты.",
     tags: ["Next.js", "Галерея", "Пакеты цен"],
     image: "/portfolio/photo.webp",
-    vercel: "https://photo-three-bice.vercel.app",
+    vercel: "https://photographer-site-seven.vercel.app",
     domain: "https://photo.kataevweb.ru",
   },
   {
@@ -208,6 +208,16 @@ const rawCases: RawCase[] = [
     image: "/portfolio/cold.webp",
     vercel: "https://cold-studio-nu.vercel.app",
     domain: "https://cold.kataevweb.ru",
+  },
+  {
+    title: "Дикий крой",
+    kind: "Одежда · Малые партии",
+    description:
+      "Спортивная одежда ограниченными дропами: каталог с размерной сеткой, корзина, самовывоз в Перми и СДЭК по России.",
+    tags: ["Next.js", "Каталог", "Корзина"],
+    image: "/portfolio/kroy.webp",
+    vercel: "https://dikoy-kroy.vercel.app",
+    domain: "https://kroy.kataevweb.ru",
   },
 ];
 
