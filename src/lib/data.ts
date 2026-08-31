@@ -127,11 +127,11 @@ export type PortfolioCase = {
 };
 
 /**
- * Живые кейсы — 4 реальных сайта, задеплоенных на Vercel.
+ * Живые кейсы — реальные сайты, задеплоенные на Vercel.
  *
  * Адреса пока технические (***.vercel.app). Когда привяжете поддомены
  * kataevweb.ru в настройках Vercel (Settings → Domains), просто поменяйте
- * флаг на false — и все 4 ссылки переключатся на красивые поддомены
+ * флаг на false — и все ссылки переключатся на красивые поддомены
  * одним движением. Это сила единого data.ts.
  */
 const useVercelLinks = true;
@@ -178,6 +178,36 @@ const rawCases: RawCase[] = [
     image: "/portfolio/photo.webp",
     vercel: "https://photo-three-bice.vercel.app",
     domain: "https://photo.kataevweb.ru",
+  },
+  {
+    title: "Анна Соколова",
+    kind: "Психолог · Пермь",
+    description:
+      "Сайт психолога с онлайн-записью: свободные слоты видны сразу, подтверждение за один клик — без переписок и ожидания.",
+    tags: ["Next.js", "Онлайн-запись", "Личный бренд"],
+    image: "/portfolio/psy.webp",
+    vercel: "https://proekt7-kataevweb.vercel.app",
+    domain: "https://psy.kataevweb.ru",
+  },
+  {
+    title: "Опишем",
+    kind: "AI-сервис · Подписка",
+    description:
+      "AI-генератор продающих описаний товаров для Ozon, Wildberries и Avito: параметры или фото — готовый текст за ~20 секунд.",
+    tags: ["Next.js", "AI / LLM", "Подписка"],
+    image: "/portfolio/opishem.webp",
+    vercel: "https://opishem-kataevweb.vercel.app",
+    domain: "https://opishem.kataevweb.ru",
+  },
+  {
+    title: "COLD STUDIO",
+    kind: "Магазин · Дроп-модель",
+    description:
+      "Магазин спортивной одежды дроп-моделью: витрина дропов, корзина и админ-панель владельца с аналитикой продаж.",
+    tags: ["Next.js", "Prisma", "Админ-панель"],
+    image: "/portfolio/cold.webp",
+    vercel: "https://cold-studio-nu.vercel.app",
+    domain: "https://cold.kataevweb.ru",
   },
 ];
 
