@@ -134,7 +134,7 @@ export type PortfolioCase = {
  * флаг на false — и все ссылки переключатся на красивые поддомены
  * одним движением. Это сила единого data.ts.
  */
-const useVercelLinks = true;
+const useVercelLinks = false;
 
 // «Сырые» кейсы: две ссылки — техническая на Vercel и финальный поддомен
 type RawCase = Omit<PortfolioCase, "url"> & { vercel: string; domain: string };
