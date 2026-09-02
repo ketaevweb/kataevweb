@@ -20,11 +20,17 @@ export function Footer() {
           <a href="/#services" className="transition-colors hover:text-zinc-300">
             Услуги
           </a>
+          <a href="/calculator" className="transition-colors hover:text-zinc-300">
+            Калькулятор
+          </a>
           <a href="/#portfolio" className="transition-colors hover:text-zinc-300">
             Работы
           </a>
           <a href="/about" className="transition-colors hover:text-zinc-300">
             Обо мне
+          </a>
+          <a href="/blog" className="transition-colors hover:text-zinc-300">
+            Блог
           </a>
           <a href="/#faq" className="transition-colors hover:text-zinc-300">
             FAQ
@@ -40,6 +46,12 @@ export function Footer() {
         </nav>
 
         <div className="flex flex-col items-center gap-1 sm:items-end">
+          <a
+            href={siteConfig.phoneHref}
+            className="text-sm font-semibold text-zinc-300 transition-colors hover:text-emerald-400"
+          >
+            {siteConfig.phone}
+          </a>
           <p className="text-xs text-zinc-600">Сделано на Next.js и Tailwind CSS</p>
           <LeadsDialog />
         </div>

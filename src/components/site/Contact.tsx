@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CheckCircle2,
   Clock,
   Loader2,
   Mail,
   MapPin,
+  Phone,
   Send,
   TriangleAlert,
 } from "lucide-react";
@@ -27,6 +28,21 @@ export function Contact() {
   const { toast } = useToast();
   const [status, setStatus] = useState<Status>("idle");
   const [errorText, setErrorText] = useState<string>("");
+  // Сообщение может прийти из калькулятора (/calculator): смета подставляется сюда
+  const [message, setMessage] = useState("");
+
+  // Подстановка расчёта из калькулятора: он кладёт смету в sessionStorage
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem("kataevweb_calc");
+      if (saved) {
+        setMessage(saved);
+        sessionStorage.removeItem("kataevweb_calc");
+      }
+    } catch {
+      // приватный режим — просто показываем пустую форму
+    }
+  }, []);
 
   // Отправка заявки на внутренний API-роут /api/leads.
   // На проде этот же код можно направить на Web3Forms или Telegram-бота —
@@ -59,6 +75,7 @@ export function Contact() {
 
       setStatus("success");
       form.reset();
+      setMessage("");
       toast({
         title: "Заявка отправлена",
         description: "Отвечу в течение дня. Спасибо за доверие!",
@@ -120,6 +137,30 @@ export function Contact() {
               </li>
               <li className="flex items-center gap-4">
                 <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/10">
+                  <Phone className="h-5 w-5 text-emerald-400" />
+                </span>
+                <div>
+                  <p className="text-sm text-zinc-500">Телефон — звоните или пишите в WhatsApp</p>
+                  <p className="font-semibold">
+                    <a
+                      href={siteConfig.phoneHref}
+                      className="transition-colors hover:text-emerald-400"
+                    >
+                      {siteConfig.phone}
+                    </a>
+                    <a
+                      href={siteConfig.whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ml-3 rounded-full border border-emerald-400/20 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300 transition-colors hover:bg-emerald-500/20"
+                    >
+                      WhatsApp
+                    </a>
+                  </p>
+                </div>
+              </li>
+              <li className="flex items-center gap-4">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/10">
                   <MapPin className="h-5 w-5 text-emerald-400" />
                 </span>
                 <div>
@@ -156,7 +197,10 @@ export function Contact() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => setStatus("idle")}
+                  onClick={() => {
+                    setStatus("idle");
+                    setMessage("");
+                  }}
                   className="mt-8 rounded-full border border-zinc-700 px-6 py-2.5 text-sm font-semibold transition-colors hover:border-zinc-400"
                 >
                   Отправить ещё одну
@@ -200,6 +244,8 @@ export function Contact() {
                     minLength={10}
                     maxLength={2000}
                     rows={5}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                   />
                 </div>
 

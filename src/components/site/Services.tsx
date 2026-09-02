@@ -1,4 +1,4 @@
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, Calculator } from "lucide-react";
 import { services } from "@/lib/data";
 import { Reveal } from "./Reveal";
 import {
@@ -65,6 +65,26 @@ export function Services() {
           </Reveal>
         ))}
       </div>
+
+      {/* Мост к калькулятору: пусть посетитель прикинет бюджет сам */}
+      <Reveal delay={0.2}>
+        <div className="mt-10 flex flex-col items-center justify-between gap-5 rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.05] p-7 text-center sm:flex-row sm:text-left">
+          <p className="max-w-xl text-sm leading-relaxed text-zinc-300">
+            Трудно выбрать, не зная цену?{" "}
+            <span className="font-semibold text-emerald-300">
+              Калькулятор за 30 секунд
+            </span>{" "}
+            покажет сумму и срок — без звонка менеджера.
+          </p>
+          <a
+            href="/calculator"
+            className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-emerald-500 px-7 text-sm font-semibold text-zinc-950 transition-all hover:bg-emerald-400 hover:shadow-[0_0_32px_-8px] hover:shadow-emerald-500/50"
+          >
+            <Calculator className="h-4 w-4" />
+            Рассчитать стоимость
+          </a>
+        </div>
+      </Reveal>
     </SectionWrapper>
   );
 }

@@ -23,12 +23,11 @@ export default function AboutPage() {
           <div className="hero-glow absolute inset-0" aria-hidden="true" />
           <div className="relative mx-auto w-full max-w-6xl px-6 pb-16 pt-32 sm:pb-20">
             <div className="flex flex-col items-start gap-8 sm:flex-row sm:items-center">
-              {/* Аватар: пока фото нет — монограмма. Когда появится настоящая
-                  фотография, положите её в /public и укажите путь в about.photo
-                  (src/lib/data.ts) — блок подхватит её сам. */}
+              {/* Аватар: путь берётся из about.photo (src/lib/data.ts).
+                  Сгенерированное фото — public/egor-kataev.webp; настоящее
+                  кладётся по тому же пути, код трогать не нужно. */}
               <Reveal>
                 {about.photo ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
                   <img
                     src={about.photo}
                     alt={`${siteConfig.name} — фото`}

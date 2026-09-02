@@ -7,11 +7,11 @@ import { siteConfig } from "@/lib/data";
 
 const navLinks = [
   { href: "/#services", label: "Услуги" },
-  { href: "/#process", label: "Этапы" },
   { href: "/#portfolio", label: "Работы" },
+  { href: "/calculator", label: "Калькулятор" },
   { href: "/about", label: "Обо мне" },
+  { href: "/blog", label: "Блог" },
   { href: "/#faq", label: "FAQ" },
-  { href: "/#contact", label: "Контакты" },
 ];
 
 export function Header() {
@@ -52,8 +52,8 @@ export function Header() {
           <span className="hidden sm:inline">{siteConfig.name}</span>
         </a>
 
-        {/* Навигация — десктоп */}
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Основная навигация">
+        {/* Навигация — десктоп (с lg, чтобы 6 пунктов + кнопка не сжимались на md) */}
+        <nav className="hidden items-center gap-6 lg:flex" aria-label="Основная навигация">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -75,7 +75,7 @@ export function Header() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="flex h-11 w-11 items-center justify-center rounded-lg text-zinc-300 transition-colors hover:bg-white/5 hover:text-zinc-100 md:hidden"
+          className="flex h-11 w-11 items-center justify-center rounded-lg text-zinc-300 transition-colors hover:bg-white/5 hover:text-zinc-100 lg:hidden"
           aria-expanded={open}
           aria-label={open ? "Закрыть меню" : "Открыть меню"}
         >
@@ -86,7 +86,7 @@ export function Header() {
       {/* Выпадающее меню — мобильные */}
       {open && (
         <nav
-          className="border-t border-white/5 bg-zinc-950/95 px-6 pb-6 pt-3 backdrop-blur-md md:hidden"
+          className="border-t border-white/5 bg-zinc-950/95 px-6 pb-6 pt-3 backdrop-blur-md lg:hidden"
           aria-label="Мобильная навигация"
         >
           <ul className="space-y-1">

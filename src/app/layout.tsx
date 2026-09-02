@@ -34,12 +34,21 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     locale: "ru_RU",
     type: "website",
+    images: [
+      {
+        url: "/og-photo.jpg",
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} — веб-разработчик`,
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${siteConfig.name} — сайты для бизнеса`,
     description:
       "Лендинги и корпоративные сайты на Next.js. От 30 000 ₽, срок от 7 дней.",
+    images: ["/og-photo.jpg"],
   },
 };
 
@@ -61,6 +70,13 @@ const personJsonLd = {
     addressCountry: "RU",
   },
   sameAs: [siteConfig.telegramUrl],
+  telephone: siteConfig.phone,
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "заказ сайта",
+    telephone: siteConfig.phone,
+    availableLanguage: "Russian",
+  },
   knowsAbout: ["Next.js", "React", "TypeScript", "веб-разработка", "лендинги"],
 };
 
