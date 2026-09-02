@@ -14,9 +14,9 @@ export const siteConfig = {
   city: "Пермь",
   cityIn: "Перми", // город в предложном падеже для SEO-заголовка
   url: "https://kataevweb.ru", // ← основной домен портфолио (поддомены кейсов — ниже, в portfolioCases)
-  email: "hello@egorkataev.ru", // ← замените на реальную почту
-  telegram: "@egorkataev", // ← замените на реальный ник в Telegram
-  telegramUrl: "https://t.me/egorkataev",
+  email: "kataevwebru@yandex.ru", // реальная почта для заявок и писем
+  telegram: "@kataevweb", // реальный ник в Telegram
+  telegramUrl: "https://t.me/kataevweb",
   phone: "+7 900 000-00-00",
   responseTime: "Отвечаю в течение дня",
 };
