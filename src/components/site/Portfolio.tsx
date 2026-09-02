@@ -8,7 +8,7 @@ import {
 } from "@/components/site/SectionHeading";
 
 /**
- * Секция «Работы» — живые кейсы клиентов.
+ * Секция «Работы» — живые сайты: концепты-демо и работающий продукт.
  * Вся карточка — одна ссылка: клик открывает сайт кейса в новой вкладке.
  * Скриншоты лежат в /public/portfolio (WebP, по ~50–250 КБ).
  */
@@ -17,8 +17,8 @@ export function Portfolio() {
     <SectionWrapper id="portfolio">
       <SectionHeading
         eyebrow="Работы"
-        title="Живые сайты — не макеты"
-        subtitle="Каждый проект можно открыть и потрогать прямо сейчас: кликните по карточке, сайт запустится в новой вкладке."
+        title="Восемь живых сайтов — от концептов до продукта"
+        subtitle="Каждый проект можно открыть и потрогать прямо сейчас. Демо — это честные концепты для портфолио, «Опишем» — работающий продукт с реальными пользователями."
       />
 
       <div className="mt-14 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
@@ -40,14 +40,20 @@ export function Portfolio() {
                   sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
                   className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
                 />
-                {/* Живой сайт = зелёный пульсирующий индикатор */}
-                <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-white/10 bg-zinc-950/80 px-3 py-1 text-xs text-zinc-300 backdrop-blur">
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                {/* Честный статус кейса: продукт vs концепт-демо */}
+                {item.status === "product" ? (
+                  <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-zinc-950/80 px-3 py-1 text-xs text-emerald-300 backdrop-blur">
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                    </span>
+                    Работающий продукт
                   </span>
-                  Живой сайт
-                </span>
+                ) : (
+                  <span className="absolute right-3 top-3 rounded-full border border-white/10 bg-zinc-950/80 px-3 py-1 text-xs text-zinc-400 backdrop-blur">
+                    Концепт · демо
+                  </span>
+                )}
               </div>
 
               <div className="flex flex-1 flex-col p-5">
