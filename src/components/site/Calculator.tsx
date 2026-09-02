@@ -16,6 +16,7 @@ import {
   calcUrgency,
   siteConfig,
 } from "@/lib/data";
+import { reachGoal } from "@/lib/metrika";
 
 const rub = (n: number) =>
   new Intl.NumberFormat("ru-RU").format(Math.round(n)) + " ₽";
@@ -53,6 +54,8 @@ export function Calculator() {
   }
 
   function sendToForm() {
+    // Цель Метрики: конверсия из калькулятора (см. src/lib/metrika.ts)
+    reachGoal("calculator_to_contact");
     // Смета уедет в форму на главной (/#contact) и подставится в поле «о задаче»
     const linesText = lines
       .map((l) => `— ${l.title} — ${rub(l.price)}`)

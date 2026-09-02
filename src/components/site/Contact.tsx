@@ -12,6 +12,7 @@ import {
   TriangleAlert,
 } from "lucide-react";
 import { siteConfig } from "@/lib/data";
+import { reachGoal } from "@/lib/metrika";
 import { Reveal } from "./Reveal";
 import {
   SectionHeading,
@@ -74,6 +75,8 @@ export function Contact() {
       }
 
       setStatus("success");
+      // Цель Метрики: конверсия формы (см. src/lib/metrika.ts)
+      reachGoal("lead_form_submit");
       form.reset();
       setMessage("");
       toast({

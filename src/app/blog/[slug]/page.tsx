@@ -40,6 +40,16 @@ export async function generateMetadata({
       description: post.description,
       publishedTime: post.date,
       authors: [siteConfig.name],
+      // Без images карточка в Telegram/соцсетях уезжает «голой» —
+      // ревью P3.6: og:image для всех страниц
+      images: [
+        {
+          url: "/og-photo.jpg",
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
     },
   };
 }

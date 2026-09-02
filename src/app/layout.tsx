@@ -3,6 +3,7 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { TgButton } from "@/components/site/TgButton";
+import { YandexMetrika } from "@/components/site/YandexMetrika";
 import { siteConfig, faqItems } from "@/lib/data";
 
 // next/font сам скачивает и оптимизирует шрифт,
@@ -122,6 +123,7 @@ export default function RootLayout({
         />
         {children}
         <TgButton />
+        <YandexMetrika />
         <Toaster />
       </body>
     </html>
