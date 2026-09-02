@@ -42,6 +42,35 @@ export const metadata: Metadata = {
   },
 };
 
+// Структурированные данные для поисковиков: кто автор сайта (Person)
+// и что это за сайт (WebSite). sameAs связывает профиль с соцсетями.
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: siteConfig.name,
+  url: siteConfig.url,
+  jobTitle: "Веб-разработчик",
+  worksFor: {
+    "@type": "Organization",
+    name: siteConfig.name,
+  },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: siteConfig.city,
+    addressCountry: "RU",
+  },
+  sameAs: [siteConfig.telegramUrl],
+  knowsAbout: ["Next.js", "React", "TypeScript", "веб-разработка", "лендинги"],
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: siteConfig.name,
+  url: siteConfig.url,
+  inLanguage: "ru-RU",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -50,6 +79,15 @@ export default function RootLayout({
       <body
         className={`${manrope.variable} font-sans bg-background text-foreground antialiased min-h-screen flex flex-col`}
       >
+        {/* JSON-LD для поисковиков (Person + WebSite) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
         {children}
         <Toaster />
       </body>
