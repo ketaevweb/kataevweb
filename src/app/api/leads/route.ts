@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { db, ensureLeadTable } from "@/lib/db";
+import {
+  clearLeads,
+  getLeadsBackend,
+  listLeads,
+  removeLead,
+  saveLead,
+} from "@/lib/leads-store";
 import { sendLeadToTelegram } from "@/lib/telegram";
 
 /**
@@ -8,9 +14,10 @@ import { sendLeadToTelegram } from "@/lib/telegram";
  * GET  /api/leads?pin=... — список заявок для панели в подвале сайта.
  * DELETE /api/leads?pin=...&id=... — удалить заявку (id=all — очистить все).
  *
- * Надёжность по схеме «два канала»: заявка ВСЕГДА сохраняется в SQLite,
- * а Telegram-уведомление — бонус сверху. Если Telegram недоступен,
- * POST всё равно вернёт успех.
+ * Надёжность по схеме «два канала»: заявка ВСЕГДА сохраняется в базу
+ * (Postgres/Neon через LEADS_DATABASE_URL, при его отсутствии или недоступности —
+ * SQLite-фолбэк), а Telegram-уведомление — бонус сверху. Если Telegram
+ * недоступен, POST всё равно вернёт успех.
  *
  * Валидация на zod: сервер никогда не доверяет данным из формы.
  */
@@ -51,18 +58,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: firstError }, { status: 400 });
     }
 
-    // Канал 1 (всегда): база данных.
-    // ensureLeadTable: на serverless (Vercel) таблицы может не быть — создаём.
-    await ensureLeadTable();
-    const lead = await db.lead.create({
-      data: parsed.data,
-    });
+    // Канал 1 (всегда): база данных (Postgres/Neon или SQLite-фолбэк).
+    const lead = await saveLead(parsed.data);
 
     // Канал 2 (для надёжности): уведомление в Telegram, не влияет на результат
     const telegram = await sendLeadToTelegram(lead);
 
     console.log(
-      `[lead] Заявка #${lead.id} от ${lead.name} (${lead.contact}); telegram: ${telegram}`
+      `[lead] Заявка #${lead.id} от ${lead.name} (${lead.contact}); backend: ${getLeadsBackend()}; telegram: ${telegram}`
     );
 
     return NextResponse.json({ ok: true, id: lead.id, telegram }, { status: 201 });
@@ -80,12 +83,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Неверный PIN" }, { status: 401 });
   }
 
-  const leads = await ensureLeadTable().then(() =>
-    db.lead.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 50,
-    })
-  );
+  const leads = await listLeads(50);
 
   return NextResponse.json({ leads });
 }
@@ -101,16 +99,13 @@ export async function DELETE(request: Request) {
   }
 
   if (id === "all") {
-    await ensureLeadTable();
-    const result = await db.lead.deleteMany({});
-    return NextResponse.json({ ok: true, deleted: result.count });
+    const deleted = await clearLeads();
+    return NextResponse.json({ ok: true, deleted });
   }
 
-  try {
-    await ensureLeadTable();
-    await db.lead.delete({ where: { id } });
+  const removed = await removeLead(id);
+  if (removed) {
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "Заявка не найдена" }, { status: 404 });
   }
+  return NextResponse.json({ error: "Заявка не найдена" }, { status: 404 });
 }
