@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, Phone, X } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 
 const navLinks = [
@@ -63,6 +63,15 @@ export function Header() {
               {link.label}
             </a>
           ))}
+          {/* Телефон — заметная точка входа для тех, кто звонит, а не пишет.
+              Показываем на широких экранах (xl), чтобы не сжимать навигацию. */}
+          <a
+            href={siteConfig.phoneHref}
+            className="hidden items-center gap-1.5 text-sm font-medium text-zinc-300 transition-colors hover:text-emerald-400 xl:flex"
+          >
+            <Phone className="h-4 w-4" />
+            {siteConfig.phone}
+          </a>
           <a
             href={pathname === "/" ? "#contact" : "/#contact"}
             className="rounded-full bg-emerald-500 px-5 py-2 text-sm font-semibold text-zinc-950 transition-colors hover:bg-emerald-400"
@@ -108,6 +117,14 @@ export function Header() {
             className="mt-3 block rounded-full bg-emerald-500 px-5 py-3 text-center text-sm font-semibold text-zinc-950 transition-colors hover:bg-emerald-400"
           >
             Обсудить проект
+          </a>
+          <a
+            href={siteConfig.phoneHref}
+            onClick={() => setOpen(false)}
+            className="mt-2 flex items-center justify-center gap-2 rounded-full border border-zinc-700 px-5 py-3 text-sm font-semibold text-zinc-100 transition-colors hover:border-emerald-400/60"
+          >
+            <Phone className="h-4 w-4" />
+            Позвонить: {siteConfig.phone}
           </a>
         </nav>
       )}

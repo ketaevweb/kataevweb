@@ -3,7 +3,7 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { TgButton } from "@/components/site/TgButton";
-import { siteConfig } from "@/lib/data";
+import { siteConfig, faqItems } from "@/lib/data";
 
 // next/font сам скачивает и оптимизирует шрифт,
 // кириллица включена отдельным subset-ом
@@ -88,6 +88,17 @@ const websiteJsonLd = {
   inLanguage: "ru-RU",
 };
 
+// FAQPage — шанс расширенного сниппета с вопросами в поисковой выдаче
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -104,6 +115,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
         {children}
         <TgButton />

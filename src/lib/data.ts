@@ -148,6 +148,20 @@ const useVercelLinks = false;
 // «Сырые» кейсы: две ссылки — техническая на Vercel и финальный поддомен
 type RawCase = Omit<PortfolioCase, "url"> & { vercel: string; domain: string };
 const rawCases: RawCase[] = [
+  // «Опишем» — первый в сетке: единственный работающий продукт с реальными
+  // пользователями, главный аргумент доверия (ревью: вынести на первый экран).
+  {
+    title: "Опишем",
+    kind: "AI-сервис · Подписка",
+    status: "product",
+    slug: "opishem",
+    description:
+      "AI-генератор продающих описаний товаров для Ozon, Wildberries и Avito: параметры или фото — готовый текст за ~20 секунд.",
+    tags: ["Next.js", "AI / LLM", "Подписка"],
+    image: "/portfolio/opishem.webp",
+    vercel: "https://opishem-kataevweb.vercel.app",
+    domain: "https://opishem.kataevweb.ru",
+  },
   {
     title: "Кофейня «Зерно»",
     kind: "Кофейня · Пермь",
@@ -205,18 +219,6 @@ const rawCases: RawCase[] = [
     image: "/portfolio/psy.webp",
     vercel: "https://proekt7-kataevweb.vercel.app",
     domain: "https://psy.kataevweb.ru",
-  },
-  {
-    title: "Опишем",
-    kind: "AI-сервис · Подписка",
-    status: "product",
-    slug: "opishem",
-    description:
-      "AI-генератор продающих описаний товаров для Ozon, Wildberries и Avito: параметры или фото — готовый текст за ~20 секунд.",
-    tags: ["Next.js", "AI / LLM", "Подписка"],
-    image: "/portfolio/opishem.webp",
-    vercel: "https://opishem-kataevweb.vercel.app",
-    domain: "https://opishem.kataevweb.ru",
   },
   {
     title: "COLD STUDIO",

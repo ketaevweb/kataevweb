@@ -27,6 +27,21 @@ export function Hero() {
             </h1>
           </Reveal>
 
+          {/* Честная сноска под оффером: снимает противоречие
+              «приносят заявки» vs «коммерческих заказов не было» —
+              ревью: превратить честность в фичу, а не в риск. */}
+          <Reveal delay={0.15}>
+            <p className="mt-4 text-sm text-zinc-500">
+              Коммерческих заказов пока не было —{" "}
+              <a
+                href="/blog/pochemu-u-menya-net-otzyvov"
+                className="text-zinc-400 underline decoration-zinc-700 underline-offset-4 transition-colors hover:text-emerald-400"
+              >
+                честно объясняю, почему
+              </a>
+            </p>
+          </Reveal>
+
           <Reveal delay={0.2}>
             <p className="mx-auto mt-6 max-w-xl text-lg text-zinc-400">
               {hero.subtitle}
