@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { portfolioCases } from "@/lib/data";
 import { Reveal } from "./Reveal";
 import {
@@ -24,13 +24,14 @@ export function Portfolio() {
       <div className="mt-14 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
         {portfolioCases.map((item, i) => (
           <Reveal key={item.title} delay={i * 0.1} className="h-full">
-            <a
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${item.title} — открыть сайт в новой вкладке`}
-              className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/40 hover:shadow-[0_20px_60px_-20px_rgba(16,185,129,0.25)]"
-            >
+            <div className="flex h-full flex-col">
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${item.title} — открыть сайт в новой вкладке`}
+                className="group flex flex-1 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/40 hover:shadow-[0_20px_60px_-20px_rgba(16,185,129,0.25)]"
+              >
               {/* Скриншот сайта: сжимается при наведении, как «взгляд в окно» */}
               <div className="relative aspect-video overflow-hidden bg-zinc-900">
                 <Image
@@ -84,7 +85,19 @@ export function Portfolio() {
                   <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </span>
               </div>
-            </a>
+              </a>
+
+              {/* Для кейсов со страницей разбора — отдельная ссылка под карточкой */}
+              {item.slug && (
+                <a
+                  href={`/cases/${item.slug}`}
+                  className="mt-3 inline-flex items-center gap-1.5 px-1 text-sm font-semibold text-emerald-400 transition-colors hover:text-emerald-300"
+                >
+                  Разбор кейса
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              )}
+            </div>
           </Reveal>
         ))}
       </div>

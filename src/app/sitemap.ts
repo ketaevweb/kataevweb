@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/lib/data";
+import { caseStudies, siteConfig } from "@/lib/data";
 
 /**
  * sitemap.xml для поисковиков — генерируется автоматически.
- * Когда появятся отдельные страницы (блог, кейсы), просто добавьте их в массив.
+ * При добавлении страниц просто расширяйте этот массив.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -13,5 +13,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 1,
     },
+    {
+      url: `${siteConfig.url}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    ...Object.keys(caseStudies).map((slug) => ({
+      url: `${siteConfig.url}/cases/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
   ];
 }

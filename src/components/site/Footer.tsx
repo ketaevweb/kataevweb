@@ -17,13 +17,16 @@ export function Footer() {
         </div>
 
         <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-zinc-500" aria-label="Навигация в подвале">
-          <a href="#services" className="transition-colors hover:text-zinc-300">
+          <a href="/#services" className="transition-colors hover:text-zinc-300">
             Услуги
           </a>
-          <a href="#portfolio" className="transition-colors hover:text-zinc-300">
+          <a href="/#portfolio" className="transition-colors hover:text-zinc-300">
             Работы
           </a>
-          <a href="#faq" className="transition-colors hover:text-zinc-300">
+          <a href="/about" className="transition-colors hover:text-zinc-300">
+            Обо мне
+          </a>
+          <a href="/#faq" className="transition-colors hover:text-zinc-300">
             FAQ
           </a>
           <a

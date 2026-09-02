@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { TgButton } from "@/components/site/TgButton";
 import { siteConfig } from "@/lib/data";
 
 // next/font сам скачивает и оптимизирует шрифт,
@@ -89,6 +90,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
         {children}
+        <TgButton />
         <Toaster />
       </body>
     </html>

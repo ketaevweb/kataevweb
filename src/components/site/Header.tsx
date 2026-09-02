@@ -1,20 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { siteConfig } from "@/lib/data";
 
 const navLinks = [
-  { href: "#services", label: "Услуги" },
-  { href: "#process", label: "Этапы" },
-  { href: "#portfolio", label: "Работы" },
-  { href: "#faq", label: "FAQ" },
-  { href: "#contact", label: "Контакты" },
+  { href: "/#services", label: "Услуги" },
+  { href: "/#process", label: "Этапы" },
+  { href: "/#portfolio", label: "Работы" },
+  { href: "/about", label: "Обо мне" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/#contact", label: "Контакты" },
 ];
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  // На главной ссылки-якоря остаются короткими (#services),
+  // на внутренних страницах ведут на соответствующий раздел главной
+  const linkHref = (href: string) =>
+    href.startsWith("/#") && pathname === "/" ? href.slice(1) : href;
 
   // Фон шапки появляется после небольшой прокрутки
   useEffect(() => {
@@ -34,9 +42,9 @@ export function Header() {
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <a
-          href="#top"
+          href={pathname === "/" ? "#top" : "/"}
           className="flex items-center gap-2.5 font-bold tracking-tight"
-          aria-label="Наверх"
+          aria-label={pathname === "/" ? "Наверх" : "На главную"}
         >
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500 text-sm font-extrabold text-zinc-950">
             {siteConfig.initials}
@@ -49,14 +57,14 @@ export function Header() {
           {navLinks.map((link) => (
             <a
               key={link.href}
-              href={link.href}
+              href={linkHref(link.href)}
               className="text-sm text-zinc-400 transition-colors hover:text-zinc-100"
             >
               {link.label}
             </a>
           ))}
           <a
-            href="#contact"
+            href={pathname === "/" ? "#contact" : "/#contact"}
             className="rounded-full bg-emerald-500 px-5 py-2 text-sm font-semibold text-zinc-950 transition-colors hover:bg-emerald-400"
           >
             Обсудить проект
@@ -85,7 +93,7 @@ export function Header() {
             {navLinks.map((link) => (
               <li key={link.href}>
                 <a
-                  href={link.href}
+                  href={linkHref(link.href)}
                   onClick={() => setOpen(false)}
                   className="block rounded-lg px-3 py-3 text-base text-zinc-300 transition-colors hover:bg-white/5 hover:text-zinc-100"
                 >
@@ -95,7 +103,7 @@ export function Header() {
             ))}
           </ul>
           <a
-            href="#contact"
+            href={pathname === "/" ? "#contact" : "/#contact"}
             onClick={() => setOpen(false)}
             className="mt-3 block rounded-full bg-emerald-500 px-5 py-3 text-center text-sm font-semibold text-zinc-950 transition-colors hover:bg-emerald-400"
           >
