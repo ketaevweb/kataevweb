@@ -8,7 +8,12 @@ import {
   ArrowUpRight,
   CheckCircle2,
 } from "lucide-react";
-import { caseStudies, portfolioCases, siteConfig } from "@/lib/data";
+import {
+  caseStudies,
+  metricsMeasuredAt,
+  portfolioCases,
+  siteConfig,
+} from "@/lib/data";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
@@ -179,8 +184,8 @@ export default async function CasePage({
                 Метрики — замер Lighthouse 13 по живому адресу
               </h2>
               <p className="mt-2 text-sm text-zinc-500">
-                Эмуляция смартфона, замер от 02.09.2026. CLS ноль означает,
-                что вёрстка не «прыгает» при загрузке.
+                Эмуляция смартфона, замер от {metricsMeasuredAt}. CLS ноль
+                означает, что вёрстка не «прыгает» при загрузке.
               </p>
               <dl className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
                 {study.metrics.map((metric) => (

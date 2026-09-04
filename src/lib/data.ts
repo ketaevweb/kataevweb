@@ -412,9 +412,14 @@ export const calcDisclaimer =
  * Детальные разборы кейсов — страницы /cases/[slug].
  *
  * metrics — настоящие замеры Lighthouse 13 (эмуляция смартфона, среднее
- * по прогонам), снятые 2026-09-02 по продакшен-адресам. Цифры честные:
+ * по прогонам), снятые 2026-09-03 по продакшен-адресам. Цифры честные:
  * «Опишем» тяжелее лендингов, потому что это интерактивное приложение.
+ *
+ * metricsMeasuredAt — single-source дата замера для шаблона /cases/[slug]:
+ * при следующем замере обновляется одно место здесь, а не строка в шаблоне.
  */
+export const metricsMeasuredAt = "03.09.2026";
+
 export type CaseMetric = { label: string; value: string; hint?: string };
 
 export type CaseStudy = {
