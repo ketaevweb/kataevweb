@@ -55,12 +55,14 @@ export const metadata: Metadata = {
 };
 
 // Структурированные данные для поисковиков: @graph из двух нод.
-// Ревью 04.09: priceRange/areaServed — свойства LocalBusiness/
-// ProfessionalService, а не Person (валидатор помечает, Google молча
-// игнорирует) — поэтому они живут в сервисной ноде, а ноды связаны
-// worksFor (Person → Organization) и founder (Organization → Person):
-// оба свойства в своём домене. Все значения — single-source из
-// siteConfig/services, без выдумок.
+// Ревью 04.09: priceRange/areaServed — свойства LocalBusiness, а не
+// Person (валидатор помечает, Google молча игнорирует) — поэтому они
+// живут в сервисной ноде, а ноды связаны worksFor (Person →
+// Organization) и founder (Organization → Person): оба свойства в
+// своём домене. Тип ноды — LocalBusiness: ProfessionalService
+// объявлен deprecated в schema.org («confusion with Service»),
+// свойства остаются в домене (LocalBusiness ⊂ Organization). Все
+// значения — single-source из siteConfig/services, без выдумок.
 const personNode = {
   "@type": "Person",
   "@id": `${siteConfig.url}#person`,
@@ -73,8 +75,13 @@ const personNode = {
     addressLocality: siteConfig.city,
     addressCountry: "RU",
   },
-  // Telegram — из siteConfig; GitHub — реальный публичный профиль владельца репо
-  sameAs: [siteConfig.telegramUrl, "https://github.com/ketaevweb"],
+  // sameAs: обе подтверждённые TG-ручки владельца + GitHub-профиль.
+  // t.me/egorkataev ведёт на тот же og:title «Егор Катаев».
+  sameAs: [
+    siteConfig.telegramUrl,
+    "https://t.me/egorkataev",
+    "https://github.com/ketaevweb",
+  ],
   telephone: siteConfig.phone,
   contactPoint: {
     "@type": "ContactPoint",
@@ -86,7 +93,7 @@ const personNode = {
 };
 
 const serviceNode = {
-  "@type": "ProfessionalService",
+  "@type": "LocalBusiness",
   "@id": `${siteConfig.url}#service`,
   name: `${siteConfig.name} — лендинги и сайты на Next.js`,
   url: siteConfig.url,
@@ -133,7 +140,7 @@ export default function RootLayout({
       <body
         className={`${manrope.variable} font-sans bg-background text-foreground antialiased min-h-screen flex flex-col`}
       >
-        {/* JSON-LD для поисковиков (@graph: Person + ProfessionalService, WebSite, FAQPage) */}
+        {/* JSON-LD для поисковиков (@graph: Person + LocalBusiness, WebSite, FAQPage) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personServiceJsonLd) }}
