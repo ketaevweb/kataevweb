@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { MotionProvider } from "@/components/site/MotionProvider";
 import { TgButton } from "@/components/site/TgButton";
 import { YandexMetrika } from "@/components/site/YandexMetrika";
-import { siteConfig, faqItems } from "@/lib/data";
+import { siteConfig, faqItems, services } from "@/lib/data";
 
 // next/font сам скачивает и оптимизирует шрифт,
 // кириллица включена отдельным subset-ом
@@ -53,24 +54,27 @@ export const metadata: Metadata = {
   },
 };
 
-// Структурированные данные для поисковиков: кто автор сайта (Person)
-// и что это за сайт (WebSite). sameAs связывает профиль с соцсетями.
-const personJsonLd = {
-  "@context": "https://schema.org",
+// Структурированные данные для поисковиков: @graph из двух нод.
+// Ревью 04.09: priceRange/areaServed — свойства LocalBusiness/
+// ProfessionalService, а не Person (валидатор помечает, Google молча
+// игнорирует) — поэтому они живут в сервисной ноде, а ноды связаны
+// worksFor (Person → Organization) и founder (Organization → Person):
+// оба свойства в своём домене. Все значения — single-source из
+// siteConfig/services, без выдумок.
+const personNode = {
   "@type": "Person",
+  "@id": `${siteConfig.url}#person`,
   name: siteConfig.name,
   url: siteConfig.url,
   jobTitle: "Веб-разработчик",
-  worksFor: {
-    "@type": "Organization",
-    name: siteConfig.name,
-  },
+  worksFor: { "@id": `${siteConfig.url}#service` },
   address: {
     "@type": "PostalAddress",
     addressLocality: siteConfig.city,
     addressCountry: "RU",
   },
-  sameAs: [siteConfig.telegramUrl],
+  // Telegram — из siteConfig; GitHub — реальный публичный профиль владельца репо
+  sameAs: [siteConfig.telegramUrl, "https://github.com/ketaevweb"],
   telephone: siteConfig.phone,
   contactPoint: {
     "@type": "ContactPoint",
@@ -79,6 +83,27 @@ const personJsonLd = {
     availableLanguage: "Russian",
   },
   knowsAbout: ["Next.js", "React", "TypeScript", "веб-разработка", "лендинги"],
+};
+
+const serviceNode = {
+  "@type": "ProfessionalService",
+  "@id": `${siteConfig.url}#service`,
+  name: `${siteConfig.name} — лендинги и сайты на Next.js`,
+  url: siteConfig.url,
+  telephone: siteConfig.phone,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: siteConfig.city,
+    addressCountry: "RU",
+  },
+  areaServed: [siteConfig.city, "Россия"],
+  priceRange: services[0].price,
+  founder: { "@id": `${siteConfig.url}#person` },
+};
+
+const personServiceJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [personNode, serviceNode],
 };
 
 const websiteJsonLd = {
@@ -108,10 +133,10 @@ export default function RootLayout({
       <body
         className={`${manrope.variable} font-sans bg-background text-foreground antialiased min-h-screen flex flex-col`}
       >
-        {/* JSON-LD для поисковиков (Person + WebSite) */}
+        {/* JSON-LD для поисковиков (@graph: Person + ProfessionalService, WebSite, FAQPage) */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personServiceJsonLd) }}
         />
         <script
           type="application/ld+json"
@@ -121,7 +146,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
-        {children}
+        <MotionProvider>{children}</MotionProvider>
         <TgButton />
         <YandexMetrika />
         <Toaster />
