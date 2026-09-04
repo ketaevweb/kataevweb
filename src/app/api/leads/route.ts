@@ -11,8 +11,12 @@ import { sendLeadToTelegram } from "@/lib/telegram";
 
 /**
  * POST /api/leads — приём заявки с формы «Обсудить проект».
- * GET  /api/leads?pin=... — список заявок для панели в подвале сайта.
- * DELETE /api/leads?pin=...&id=... — удалить заявку (id=all — очистить все).
+ * GET  /api/leads (header x-admin-pin) — список заявок для панели в подвале сайта.
+ * DELETE /api/leads?id=... (header x-admin-pin) — удалить заявку (id=all — очистить все).
+ *
+ * PIN передаётся ТОЛЬКО заголовком x-admin-pin: query-параметр оседает в логах
+ * Vercel/CDN и в истории браузера — исходная мотивация ротации PIN (ревью Task 29).
+ * Ответы админ-методов — no-store: список заявок не должен кэшироваться.
  *
  * Надёжность по схеме «два канала»: заявка ВСЕГДА сохраняется в базу
  * (Postgres/Neon через LEADS_DATABASE_URL, при его отсутствии или недоступности —
@@ -40,11 +44,14 @@ const leadSchema = z.object({
     .max(2000, "Описание слишком длинное"),
 });
 
-// PIN-проверка для админ-методов (см. ADMIN_PIN в .env)
+// PIN-проверка для админ-методов. PIN задаётся ТОЛЬКО в env (ADMIN_PIN):
+// дефолт из кода убран — иначе ротация env бессмысленна (2468 пережил бы её).
+// fail-closed: без env в проде админ-методы недоступны.
 function isPinValid(request: Request): boolean {
-  const pin = new URL(request.url).searchParams.get("pin");
-  const adminPin = process.env.ADMIN_PIN ?? "2468";
-  return pin === adminPin;
+  const adminPin = process.env.ADMIN_PIN;
+  if (!adminPin) return false;
+  const provided = request.headers.get("x-admin-pin");
+  return provided !== null && provided === adminPin;
 }
 
 /**
@@ -136,17 +143,26 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   if (!isPinValid(request)) {
-    return NextResponse.json({ error: "Неверный PIN" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Неверный PIN" },
+      { status: 401, headers: { "Cache-Control": "no-store" } }
+    );
   }
 
   const leads = await listLeads(50);
 
-  return NextResponse.json({ leads });
+  return NextResponse.json(
+    { leads },
+    { headers: { "Cache-Control": "no-store" } }
+  );
 }
 
 export async function DELETE(request: Request) {
   if (!isPinValid(request)) {
-    return NextResponse.json({ error: "Неверный PIN" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Неверный PIN" },
+      { status: 401, headers: { "Cache-Control": "no-store" } }
+    );
   }
 
   const id = new URL(request.url).searchParams.get("id");

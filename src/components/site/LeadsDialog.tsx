@@ -30,7 +30,8 @@ const dateFormatter = new Intl.DateTimeFormat("ru-RU", {
 
 /**
  * Панель заявок: открывается кнопкой в подвале сайта, вход по PIN
- * (ADMIN_PIN в .env). Заявки читаются и удаляются через /api/leads.
+ * (ADMIN_PIN в .env, передаётся заголовком x-admin-pin — не query,
+ * чтобы PIN не оседал в логах). Заявки читаются и удаляются через /api/leads.
  *
  * Для реального клиента панель стоит вынести на отдельный маршрут
  * и закрыть полноценной авторизацией — здесь это учебный демо-вариант.
@@ -49,9 +50,12 @@ export function LeadsDialog() {
       if (!silent) setLoading(true);
       setPinError("");
       try {
-        const res = await fetch(`/api/leads?pin=${encodeURIComponent(currentPin)}`);
+        const res = await fetch("/api/leads", {
+          headers: { "x-admin-pin": currentPin },
+          cache: "no-store",
+        });
         if (res.status === 401) {
-          setPinError("Неверный PIN. Подсказка для демо: 2468");
+          setPinError("Неверный PIN.");
           setUnlocked(false);
           return;
         }
@@ -72,10 +76,10 @@ export function LeadsDialog() {
 
   async function deleteLead(id: string) {
     try {
-      const res = await fetch(
-        `/api/leads?pin=${encodeURIComponent(pin)}&id=${encodeURIComponent(id)}`,
-        { method: "DELETE" }
-      );
+      const res = await fetch(`/api/leads?id=${encodeURIComponent(id)}`, {
+        method: "DELETE",
+        headers: { "x-admin-pin": pin },
+      });
       if (!res.ok) throw new Error("Не удалось удалить заявку");
       setLeads((prev) => prev.filter((lead) => lead.id !== id));
       toast({ title: "Заявка удалена" });
