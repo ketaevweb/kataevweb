@@ -5,6 +5,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { SectionWrapper } from "@/components/site/SectionHeading";
+import { PdfDownload } from "@/components/site/PdfDownload";
 
 export const metadata: Metadata = {
   title: `Обо мне — ${siteConfig.name}`,
@@ -112,27 +113,72 @@ export default function AboutPage() {
               </Reveal>
             ))}
           </div>
+        </SectionWrapper>
 
-          {/* Стек */}
-          <Reveal delay={0.2}>
-            <div className="mt-12 rounded-2xl border border-white/10 bg-white/[0.02] p-7">
-              <h3 className="font-bold">Стек, на котором я работаю</h3>
-              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400">
-                Осознанный фокус, а не случайный набор: один проверенный
-                инструмент на роль. Поэтому сайт, сделанный сегодня, я смогу
-                поддерживать и через пять лет.
+        {/* PDF-портфолио — скачивание одним файлом. Здесь же рядом
+            встанет видео-презентация, когда будет записано. */}
+        <section className="mx-auto max-w-6xl px-6 pb-4">
+          <Reveal>
+            <div className="flex flex-col items-center rounded-3xl border border-white/10 bg-white/[0.02] px-8 py-12 text-center">
+              <h2 className="text-xl font-extrabold tracking-tight sm:text-2xl">
+                Портфолио одним файлом
+              </h2>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-400">
+                13 страниц о том, как я работаю: кейсы, цены, процесс и
+                честные ответы — удобно переслать партнёру или распечатать
+                перед созвоном.
               </p>
-              <ul className="mt-5 flex flex-wrap gap-2">
-                {about.stack.map((tech) => (
-                  <li
-                    key={tech}
-                    className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-zinc-200"
-                  >
-                    {tech}
-                  </li>
-                ))}
-              </ul>
+              <div className="mt-6">
+                <PdfDownload />
+              </div>
             </div>
+          </Reveal>
+        </section>
+
+        {/* Технологии — что под капотом и что это даёт заказчику */}
+        <SectionWrapper id="technologies">
+          <Reveal>
+            <div className="max-w-2xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-400">
+                Стек
+              </p>
+              <h2 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
+                Технологии, на которых я строю сайты
+              </h2>
+            </div>
+          </Reveal>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {about.technologies.map((tech, i) => (
+              <Reveal key={tech.name} delay={i * 0.08} className="h-full">
+                <article className="h-full rounded-2xl border border-white/10 bg-white/[0.02] p-7 transition-colors hover:border-emerald-500/30">
+                  <h3 className="text-lg font-bold">{tech.name}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-zinc-400">
+                    {tech.benefit}
+                  </p>
+                  <p className="mt-5 flex items-center gap-2 text-xs text-zinc-500">
+                    <span
+                      aria-hidden="true"
+                      className="h-1 w-1 shrink-0 rounded-full bg-emerald-400"
+                    />
+                    {tech.where}
+                  </p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={0.2}>
+            <p className="mt-10 max-w-3xl text-sm leading-relaxed text-zinc-400">
+              {about.technologiesNote} {about.technologiesArticle.prefix}{" "}
+              <a
+                href={about.technologiesArticle.href}
+                className="font-semibold text-emerald-300 underline decoration-emerald-500/40 underline-offset-4 transition-colors hover:text-emerald-200"
+              >
+                «{about.technologiesArticle.title}»
+              </a>
+              .
+            </p>
           </Reveal>
         </SectionWrapper>
 

@@ -236,6 +236,19 @@ export function Calculator() {
             Сначала спросить в Telegram
           </a>
 
+          <p className="mt-4 text-center text-xs text-zinc-500">
+            Или{" "}
+            <a
+              href="/kataev-web-portfolio-2026.pdf"
+              download
+              onClick={() => reachGoal("pdf_download")}
+              className="underline decoration-zinc-600 underline-offset-2 transition-colors hover:text-emerald-300"
+            >
+              скачать PDF-портфолио
+            </a>{" "}
+            — 13 страниц с кейсами и ценами
+          </p>
+
           <p className="mt-5 flex items-start gap-2 text-xs leading-relaxed text-zinc-500">
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />
             {calcDisclaimer}

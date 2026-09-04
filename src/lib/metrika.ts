@@ -10,6 +10,7 @@
  *  - lead_form_submit    — отправлена форма заявки (Contact)
  *  - calculator_to_contact — «Отправить расчёт» из калькулятора
  *  - telegram_click      — клик по плавающей TG-кнопке
+ *  - pdf_download        — скачивание PDF-портфолио (/about, /calculator)
  */
 export function reachGoal(goal: string) {
   const id = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID;
