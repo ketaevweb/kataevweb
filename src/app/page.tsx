@@ -7,6 +7,7 @@ import { BlogSection } from "@/components/site/BlogSection";
 import { Faq } from "@/components/site/Faq";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
+import { StickyCta } from "@/components/site/StickyCta";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <StickyCta />
     </>
   );
 }

@@ -64,6 +64,7 @@ export function Contact() {
           name: String(data.get("name") ?? ""),
           contact: String(data.get("contact") ?? ""),
           message: String(data.get("message") ?? ""),
+          website: String(data.get("website") ?? ""), // honeypot — проверяется на сервере
         }),
       });
 
@@ -211,6 +212,25 @@ export function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6" noValidate={false}>
+                {/* Микро-соцдоказательство: только проверяемые факты (портфолио/FAQ/контакты) */}
+                <p className="flex flex-wrap items-center gap-x-2 gap-y-1 rounded-lg border border-emerald-400/15 bg-emerald-500/5 px-4 py-3 text-sm text-zinc-300">
+                  <span>8 живых проектов в портфолио</span>
+                  <span className="text-zinc-600">·</span>
+                  <span>лендинг — за 7–10 дней</span>
+                  <span className="text-zinc-600">·</span>
+                  <span>отвечаю в течение дня</span>
+                </p>
+
+                {/* Honeypot против ботов: человек поле не видит и не заполняет */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden"
+                />
+
                 <div className="space-y-2">
                   <Label htmlFor="name">Как вас зовут</Label>
                   <Input

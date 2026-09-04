@@ -129,6 +129,7 @@ export type PortfolioCase = {
    */
   status: "product" | "demo";
   description: string;
+  result: string; // строка результата: 1–2 честных факта (Lighthouse, структура) — цифры из caseStudies/замеров 03.09.2026
   tags: string[];
   image: string; // скриншот из /public/portfolio
   url: string; // живой сайт — открывается в новой вкладке
@@ -157,6 +158,7 @@ const rawCases: RawCase[] = [
     slug: "opishem",
     description:
       "AI-генератор продающих описаний товаров для Ozon, Wildberries и Avito: параметры или фото — готовый текст за ~20 секунд.",
+    result: "Работающий продукт: подписки, стриминг LLM, батч до 40 карточек за прогон",
     tags: ["Next.js", "AI / LLM", "Подписка"],
     image: "/portfolio/opishem.webp",
     vercel: "https://opishem-kataevweb.vercel.app",
@@ -169,6 +171,7 @@ const rawCases: RawCase[] = [
     slug: "zerno",
     description:
       "Лендинг спешелти-кофейни: меню и завтраки, галерея зала, блок отзывов и бронирование столика онлайн.",
+    result: "Lighthouse 93 · CLS 0 — бронь столика уходит владельцу в Telegram",
     tags: ["Next.js", "Tailwind", "Бронь онлайн"],
     image: "/portfolio/coffee.webp",
     vercel: "https://zerno-coffee-psi.vercel.app",
@@ -181,6 +184,7 @@ const rawCases: RawCase[] = [
     slug: "barber",
     description:
       "Сайт барбершопа: прайс на услуги, карточки мастеров, блок отзывов и онлайн-запись в два клика.",
+    result: "Lighthouse 94 · запись в два клика — с выбором мастера и услуги",
     tags: ["Next.js", "Tailwind", "Онлайн-запись"],
     image: "/portfolio/barber.webp",
     vercel: "https://britva-barbershop-one.vercel.app",
@@ -193,6 +197,7 @@ const rawCases: RawCase[] = [
     slug: "auto",
     description:
       "Лендинг автосервиса: акции, этапы ремонта, прайс по маркам авто и форма «перезвоним за 15 минут».",
+    result: "Lighthouse 95 · фильтры услуг живут в URL — отдельная ссылка на каждую услугу",
     tags: ["Next.js", "SEO", "Заявки"],
     image: "/portfolio/auto.webp",
     vercel: "https://autoservice-site.vercel.app",
@@ -204,6 +209,7 @@ const rawCases: RawCase[] = [
     status: "demo",
     description:
       "Сайт-портфолио фотографа: галерея работ, пакеты съёмки с ценами, FAQ и заявка на свободные даты.",
+    result: "Lighthouse 87 · галерея с фильтрами и пакеты съёмки с ценами",
     tags: ["Next.js", "Галерея", "Пакеты цен"],
     image: "/portfolio/photo.webp",
     vercel: "https://photographer-site-seven.vercel.app",
@@ -215,6 +221,7 @@ const rawCases: RawCase[] = [
     status: "demo",
     description:
       "Сайт психолога с онлайн-записью: свободные слоты видны сразу, подтверждение за один клик — без переписок и ожидания.",
+    result: "Lighthouse 86 · свободные слоты видны сразу — запись без переписок",
     tags: ["Next.js", "Онлайн-запись", "Личный бренд"],
     image: "/portfolio/psy.webp",
     vercel: "https://proekt7-kataevweb.vercel.app",
@@ -226,6 +233,7 @@ const rawCases: RawCase[] = [
     status: "demo",
     description:
       "Магазин спортивной одежды дроп-моделью: витрина дропов, корзина и админ-панель владельца с аналитикой продаж.",
+    result: "Lighthouse 92 · дропы с реальными остатками и админкой с аналитикой",
     tags: ["Next.js", "Prisma", "Админ-панель"],
     image: "/portfolio/cold.webp",
     vercel: "https://cold-studio-nu.vercel.app",
@@ -237,6 +245,7 @@ const rawCases: RawCase[] = [
     status: "demo",
     description:
       "Спортивная одежда ограниченными дропами: каталог с размерной сеткой, корзина, самовывоз в Перми и СДЭК по России.",
+    result: "Lighthouse 96 · размерная сетка и посадка на фигурах 44–52 до покупки",
     tags: ["Next.js", "Каталог", "Корзина"],
     image: "/portfolio/kroy.webp",
     vercel: "https://dikoy-kroy.vercel.app",

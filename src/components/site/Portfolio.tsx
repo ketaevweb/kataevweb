@@ -66,6 +66,15 @@ export function Portfolio() {
                   {item.description}
                 </p>
 
+                {/* Строка результата: 1–2 честных факта (Lighthouse/структура) */}
+                <p className="mt-3 flex items-start gap-2 text-xs leading-relaxed text-zinc-300">
+                  <span
+                    className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400"
+                    aria-hidden="true"
+                  />
+                  <span>{item.result}</span>
+                </p>
+
                 <ul className="mt-4 flex flex-wrap gap-2">
                   {item.tags.map((tag) => (
                     <li

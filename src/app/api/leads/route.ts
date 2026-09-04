@@ -47,9 +47,65 @@ function isPinValid(request: Request): boolean {
   return pin === adminPin;
 }
 
+/**
+ * Анти-спам: rate limit в памяти процесса.
+ * На serverless каждый инстанс считает свои хиты — это не глобальный лимит,
+ * но боты с одного IP он срезает надёжно (5 заявок/час достаточно любому клиенту).
+ */
+const RATE_LIMIT = 5;
+const RATE_WINDOW_MS = 60 * 60 * 1000;
+const rateHits = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (rateHits.get(ip) ?? []).filter((t) => now - t < RATE_WINDOW_MS);
+  if (recent.length >= RATE_LIMIT) {
+    rateHits.set(ip, recent); // обновляем, чтобы старые записи не копились
+    return true;
+  }
+  recent.push(now);
+  rateHits.set(ip, recent);
+  // Гигиена памяти: карта разрастается — чистим устаревшие записи
+  if (rateHits.size > 1000) {
+    for (const [key, stamps] of rateHits) {
+      if (stamps.every((t) => now - t >= RATE_WINDOW_MS)) rateHits.delete(key);
+    }
+  }
+  return false;
+}
+
+function getClientIp(request: Request): string {
+  return (
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    "unknown"
+  );
+}
+
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    // Rate limit: до zod, чтобы дешёвый отказ шёл раньше любой работы с базой
+    const ip = getClientIp(request);
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        {
+          error:
+            "Слишком много заявок с одного адреса. Напишите мне сразу в Telegram — отвечу там же.",
+        },
+        { status: 429 }
+      );
+    }
+
+    const body = (await request.json()) as Record<string, unknown>;
+
+    // Honeypot: скрытое поле «сайт компании» человек не видит и не заполняет.
+    // Боты заполняют всё подряд — им отвечаем как будто всё хорошо (201),
+    // но заявку не сохраняем и в Telegram не отправляем.
+    if (typeof body.website === "string" && body.website.trim() !== "") {
+      console.log(`[lead] Honeypot сработал (${ip}) — заявка отброшена тихо`);
+      return NextResponse.json({ ok: true }, { status: 201 });
+    }
+
     const parsed = leadSchema.safeParse(body);
 
     if (!parsed.success) {
