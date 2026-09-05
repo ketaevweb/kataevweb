@@ -98,10 +98,21 @@ export default async function CasePage({
 
             <Reveal delay={0.2}>
               <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                {/* liveSuspended (временно): живой сайт деградирован — кнопка
-                    скрыта, чтобы не вести посетителя на сломанное демо.
-                    Реверс — снять флаг в data.ts, кнопка вернётся сама. */}
-                {!item.liveSuspended && (
+                {/* liveSuspended (временно): живой сайт деградирован — вместо
+                    молчания (дочитавший не находит выхода и достраивает «сайт
+                    удалён») показываем явный dead-end-сигнал: не-link спан на
+                    месте основной кнопки, «временно, не у вас сломано».
+                    Реверс — снять флаг в data.ts, кнопка вернётся сама.
+                    Мера — дни, не недели: дольше недели liveSuspended должен
+                    быть оформлен решением о данных, а не флагом. */}
+                {item.liveSuspended ? (
+                  <span
+                    aria-disabled="true"
+                    className="inline-flex h-12 cursor-not-allowed select-none items-center justify-center rounded-full bg-emerald-500 px-8 font-semibold text-zinc-950 opacity-60"
+                  >
+                    Демо временно недоступно — БД на восстановлении
+                  </span>
+                ) : (
                   <a
                     href={item.url}
                     target="_blank"
