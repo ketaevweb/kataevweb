@@ -151,8 +151,12 @@ export async function GET(request: Request) {
 
   const leads = await listLeads(50);
 
+  // backend — источник истины для панели (Task 37, ревью Task 35–36):
+  // при фолбэке на SQLite заявки эфемерны (/tmp на Vercel), панель обязана
+  // это показать, а не молча выглядеть пустой. POST-ответ не менялся:
+  // инфраструктурные детали не утекают публичным клиентам.
   return NextResponse.json(
-    { leads },
+    { leads, backend: getLeadsBackend() },
     { headers: { "Cache-Control": "no-store" } }
   );
 }

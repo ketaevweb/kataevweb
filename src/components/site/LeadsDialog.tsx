@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { Database, Loader2, RefreshCw, Trash2, XCircle } from "lucide-react";
+import { AlertTriangle, Database, Loader2, RefreshCw, Trash2, XCircle } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -20,6 +20,8 @@ type Lead = {
   message: string;
   createdAt: string;
 };
+
+type LeadsBackend = "postgres" | "sqlite" | null;
 
 const dateFormatter = new Intl.DateTimeFormat("ru-RU", {
   day: "numeric",
@@ -42,6 +44,7 @@ export function LeadsDialog() {
   const [unlocked, setUnlocked] = useState(false);
   const [pin, setPin] = useState("");
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [backend, setBackend] = useState<LeadsBackend>(null);
   const [loading, setLoading] = useState(false);
   const [pinError, setPinError] = useState("");
 
@@ -60,8 +63,9 @@ export function LeadsDialog() {
           return;
         }
         if (!res.ok) throw new Error("Не удалось загрузить заявки");
-        const data = (await res.json()) as { leads: Lead[] };
+        const data = (await res.json()) as { leads: Lead[]; backend?: LeadsBackend };
         setLeads(data.leads);
+        setBackend(data.backend ?? null);
         setUnlocked(true);
       } catch (error) {
         setPinError(
@@ -101,6 +105,7 @@ export function LeadsDialog() {
       setPin("");
       setPinError("");
       setLeads([]);
+      setBackend(null);
     }
   }
 
@@ -170,6 +175,19 @@ export function LeadsDialog() {
           </form>
         ) : (
           <div className="space-y-4">
+            {backend === "sqlite" && (
+              <div
+                role="status"
+                className="flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-xs leading-relaxed text-amber-400"
+              >
+                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                <span>
+                  Прод пишет заявки в эфемерный фолбэк-SQLite (Postgres недоступен):
+                  после рестарта сервера эти заявки исчезнут из панели. Источник
+                  истины сейчас — Telegram-уведомления.
+                </span>
+              </div>
+            )}
             <div className="flex items-center justify-between">
               <p className="text-sm text-zinc-500">
                 Всего заявок: <span className="font-semibold text-zinc-300">{leads.length}</span>
