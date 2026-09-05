@@ -98,31 +98,15 @@ export default async function CasePage({
 
             <Reveal delay={0.2}>
               <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                {/* liveSuspended (временно): живой сайт деградирован — вместо
-                    молчания (дочитавший не находит выхода и достраивает «сайт
-                    удалён») показываем явный dead-end-сигнал: не-link спан на
-                    месте основной кнопки, «временно, не у вас сломано».
-                    Реверс — снять флаг в data.ts, кнопка вернётся сама.
-                    Мера — дни, не недели: дольше недели liveSuspended должен
-                    быть оформлен решением о данных, а не флагом. */}
-                {item.liveSuspended ? (
-                  <span
-                    aria-disabled="true"
-                    className="inline-flex h-12 cursor-not-allowed select-none items-center justify-center rounded-full bg-emerald-500 px-8 font-semibold text-zinc-950 opacity-60"
-                  >
-                    Демо временно недоступно — БД на восстановлении
-                  </span>
-                ) : (
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-emerald-500 px-8 font-semibold text-zinc-950 transition-all hover:bg-emerald-400 hover:shadow-[0_0_32px_-8px] hover:shadow-emerald-500/50"
-                  >
-                    Открыть живой сайт
-                    <ArrowUpRight className="h-4 w-4" />
-                  </a>
-                )}
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-emerald-500 px-8 font-semibold text-zinc-950 transition-all hover:bg-emerald-400 hover:shadow-[0_0_32px_-8px] hover:shadow-emerald-500/50"
+                >
+                  Открыть живой сайт
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
                 <Link
                   href="/#contact"
                   className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-zinc-700 px-8 font-semibold text-zinc-100 transition-colors hover:border-zinc-400"
