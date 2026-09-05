@@ -98,15 +98,20 @@ export default async function CasePage({
 
             <Reveal delay={0.2}>
               <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-emerald-500 px-8 font-semibold text-zinc-950 transition-all hover:bg-emerald-400 hover:shadow-[0_0_32px_-8px] hover:shadow-emerald-500/50"
-                >
-                  Открыть живой сайт
-                  <ArrowUpRight className="h-4 w-4" />
-                </a>
+                {/* liveSuspended (временно): живой сайт деградирован — кнопка
+                    скрыта, чтобы не вести посетителя на сломанное демо.
+                    Реверс — снять флаг в data.ts, кнопка вернётся сама. */}
+                {!item.liveSuspended && (
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-emerald-500 px-8 font-semibold text-zinc-950 transition-all hover:bg-emerald-400 hover:shadow-[0_0_32px_-8px] hover:shadow-emerald-500/50"
+                  >
+                    Открыть живой сайт
+                    <ArrowUpRight className="h-4 w-4" />
+                  </a>
+                )}
                 <Link
                   href="/#contact"
                   className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-zinc-700 px-8 font-semibold text-zinc-100 transition-colors hover:border-zinc-400"

@@ -134,6 +134,7 @@ export type PortfolioCase = {
   image: string; // скриншот из /public/portfolio
   url: string; // живой сайт — открывается в новой вкладке
   slug?: string; // если задан — на кейс есть страница разбора /cases/[slug]
+  liveSuspended?: boolean; // временно: демо-сайт деградирован (БД на восстановлении) — CTA ведёт на разбор кейса, а не на живой сайт. Реверс — снять флаг.
 };
 
 /**
@@ -221,6 +222,7 @@ const rawCases: RawCase[] = [
     kind: "Психолог · Пермь",
     status: "demo",
     slug: "psy",
+    liveSuspended: true, // ВРЕМЕННО (условная мера владельца, Task 31): демо-БД на восстановлении — карточка ведёт на /cases/psy. Реверс: снять строку после e2e записи.
     description:
       "Сайт психолога с онлайн-записью: свободные слоты видны сразу, подтверждение за один клик — без переписок и ожидания.",
     result: "Lighthouse 86 · свободные слоты видны сразу — запись без переписок",
@@ -572,7 +574,7 @@ export const caseStudies: Record<string, CaseStudy> = {
       { label: "Largest Contentful Paint", value: "3.5 c" },
       { label: "Cumulative Layout Shift", value: "0", hint: "вёрстка не прыгает (после CLS-фикса)" },
       { label: "Total Blocking Time", value: "220 мс" },
-      { label: "Best Practices", value: "96", hint: "−4 балла: ошибка в консоли (недоступна демо-БД) и отсутствие sourcemaps" },
+      { label: "Best Practices", value: "96", hint: "Кейс описывает структуру; демо-БД на восстановлении" },
     ],
     verdict:
       "Показываю этот кейс как пример онлайн-записи без переписок: клиент выбирает слот глазами, а не угадывает в сообщениях — и специалист получает запись, не тратя время на согласования.",
