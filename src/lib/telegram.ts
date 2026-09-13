@@ -38,6 +38,25 @@ export async function sendLeadToTelegram(
   ].join("\n");
 
   try {
+    // ── YC egress: api.telegram.org недоступен из RU-egress Yandex Cloud ──
+    // Если задан TG_RELAY_URL — шлём через релей на Vercel (Task 59/61);
+    // на Vercel-деплое переменная не задана → прямой вызов как раньше.
+    const relayUrl = process.env.TG_RELAY_URL;
+    const relaySecret = process.env.TG_RELAY_SECRET;
+    if (relayUrl && relaySecret) {
+      const relayRes = await fetch(relayUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-relay-secret": relaySecret },
+        body: JSON.stringify({ text, chat_id: chatId, parse_mode: "HTML" }),
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!relayRes.ok) {
+        console.error(`[telegram] релей ответил ${relayRes.status}: ${await relayRes.text()}`);
+        return "failed";
+      }
+      return "sent";
+    }
+
     const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
