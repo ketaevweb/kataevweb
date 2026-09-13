@@ -1,6 +1,10 @@
 import Image from "next/image";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { portfolioCases } from "@/lib/data";
+import {
+  portfolioCases,
+  CASE_GROUPS,
+  type PortfolioCase,
+} from "@/lib/data";
 import { Reveal } from "./Reveal";
 import {
   SectionHeading,
@@ -11,104 +15,133 @@ import {
  * Секция «Работы» — живые сайты: концепты-демо и работающий продукт.
  * Вся карточка — одна ссылка: клик открывает сайт кейса в новой вкладке.
  * Скриншоты лежат в /public/portfolio (WebP, по ~50–250 КБ).
+ *
+ * Карточки сгруппированы по типу задачи (продукт / запись и бронирование /
+ * магазины / визитки) — ничего не удалено, порядок внутри группы сохранён.
+ * Группы задаются полем group в data.ts, заголовки — в CASE_GROUPS.
  */
+function CaseCard({ item, i }: { item: PortfolioCase; i: number }) {
+  return (
+    <Reveal key={item.title} delay={i * 0.1} className="h-full">
+      <div className="flex h-full flex-col">
+        <a
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${item.title} — открыть сайт в новой вкладке`}
+          className="group flex flex-1 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/40 hover:shadow-[0_20px_60px_-20px_rgba(16,185,129,0.25)]"
+        >
+          {/* Скриншот сайта: сжимается при наведении, как «взгляд в окно» */}
+          <div className="relative aspect-video overflow-hidden bg-zinc-900">
+            <Image
+              src={item.image}
+              alt={`Скриншот: ${item.title}`}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
+              className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
+            />
+            {/* Честный статус кейса: продукт vs концепт-демо */}
+            {item.status === "product" ? (
+              <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-zinc-950/80 px-3 py-1 text-xs text-emerald-300 backdrop-blur">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                </span>
+                Работающий продукт
+              </span>
+            ) : (
+              <span className="absolute right-3 top-3 rounded-full border border-white/10 bg-zinc-950/80 px-3 py-1 text-xs text-zinc-400 backdrop-blur">
+                Концепт · демо
+              </span>
+            )}
+          </div>
+
+          <div className="flex flex-1 flex-col p-5">
+            <p className="text-xs uppercase tracking-wide text-emerald-400/90">
+              {item.kind}
+            </p>
+            <h3 className="mt-1.5 font-bold">{item.title}</h3>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-zinc-400">
+              {item.description}
+            </p>
+
+            {/* Строка результата: 1–2 честных факта (Lighthouse/структура) */}
+            <p className="mt-3 flex items-start gap-2 text-xs leading-relaxed text-zinc-300">
+              <span
+                className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400"
+                aria-hidden="true"
+              />
+              <span>{item.result}</span>
+            </p>
+
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {item.tags.map((tag) => (
+                <li
+                  key={tag}
+                  className="rounded-full bg-white/5 px-3 py-1 text-xs text-zinc-300"
+                >
+                  {tag}
+                </li>
+              ))}
+            </ul>
+
+            {/* Подпись-ссылка: показывает адрес и намекает на клик */}
+            <span className="mt-4 flex items-center gap-1.5 border-t border-white/5 pt-4 text-sm text-zinc-400 transition-colors group-hover:text-emerald-400">
+              <span className="truncate">
+                {new URL(item.url).hostname}
+              </span>
+              <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </span>
+          </div>
+        </a>
+
+        {/* Для кейсов со страницей разбора — отдельная ссылка под карточкой */}
+        {item.slug && (
+          <a
+            href={`/cases/${item.slug}`}
+            className="mt-3 inline-flex items-center gap-1.5 px-1 text-sm font-semibold text-emerald-400 transition-colors hover:text-emerald-300"
+          >
+            Разбор кейса
+            <ArrowRight className="h-4 w-4" />
+          </a>
+        )}
+      </div>
+    </Reveal>
+  );
+}
+
 export function Portfolio() {
   return (
     <SectionWrapper id="portfolio">
       <SectionHeading
         eyebrow="Работы"
         title="Восемь живых сайтов — от концептов до продукта"
-        subtitle="Каждый проект можно открыть и потрогать прямо сейчас. Демо — это честные концепты для портфолио, «Опишем» — работающий продукт с реальными пользователями."
+        subtitle="Каждый проект можно открыть и потрогать прямо сейчас. Сгруппировал их по типу задачи, чтобы было проще выбрать свой сценарий: продукт, запись и бронирование, магазины, визитки."
       />
 
-      <div className="mt-14 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-        {portfolioCases.map((item, i) => (
-          <Reveal key={item.title} delay={i * 0.1} className="h-full">
-            <div className="flex h-full flex-col">
-              <a
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${item.title} — открыть сайт в новой вкладке`}
-                className="group flex flex-1 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/40 hover:shadow-[0_20px_60px_-20px_rgba(16,185,129,0.25)]"
-              >
-              {/* Скриншот сайта: сжимается при наведении, как «взгляд в окно» */}
-              <div className="relative aspect-video overflow-hidden bg-zinc-900">
-                <Image
-                  src={item.image}
-                  alt={`Скриншот: ${item.title}`}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                  className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
-                />
-                {/* Честный статус кейса: продукт vs концепт-демо */}
-                {item.status === "product" ? (
-                  <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-zinc-950/80 px-3 py-1 text-xs text-emerald-300 backdrop-blur">
-                    <span className="relative flex h-1.5 w-1.5">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                    </span>
-                    Работающий продукт
-                  </span>
-                ) : (
-                  <span className="absolute right-3 top-3 rounded-full border border-white/10 bg-zinc-950/80 px-3 py-1 text-xs text-zinc-400 backdrop-blur">
-                    Концепт · демо
-                  </span>
-                )}
-              </div>
-
-              <div className="flex flex-1 flex-col p-5">
-                <p className="text-xs uppercase tracking-wide text-emerald-400/90">
-                  {item.kind}
-                </p>
-                <h3 className="mt-1.5 font-bold">{item.title}</h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-zinc-400">
-                  {item.description}
-                </p>
-
-                {/* Строка результата: 1–2 честных факта (Lighthouse/структура) */}
-                <p className="mt-3 flex items-start gap-2 text-xs leading-relaxed text-zinc-300">
-                  <span
-                    className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400"
-                    aria-hidden="true"
-                  />
-                  <span>{item.result}</span>
-                </p>
-
-                <ul className="mt-4 flex flex-wrap gap-2">
-                  {item.tags.map((tag) => (
-                    <li
-                      key={tag}
-                      className="rounded-full bg-white/5 px-3 py-1 text-xs text-zinc-300"
-                    >
-                      {tag}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Подпись-ссылка: показывает адрес и намекает на клик */}
-                <span className="mt-4 flex items-center gap-1.5 border-t border-white/5 pt-4 text-sm text-zinc-400 transition-colors group-hover:text-emerald-400">
-                  <span className="truncate">
-                    {new URL(item.url).hostname}
-                  </span>
-                  <ArrowUpRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+      <div className="mt-14 space-y-12">
+        {CASE_GROUPS.map((group) => {
+          const items = portfolioCases.filter((c) => c.group === group.id);
+          if (items.length === 0) return null;
+          return (
+            <div key={group.id}>
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-300">
+                  {group.title}
+                </h3>
+                <span className="text-xs text-zinc-500">{group.hint}</span>
+                <span className="ml-auto text-xs text-zinc-600" aria-hidden="true">
+                  {items.length} {items.length === 1 ? "проект" : items.length < 5 ? "проекта" : "проектов"}
                 </span>
               </div>
-              </a>
-
-              {/* Для кейсов со страницей разбора — отдельная ссылка под карточкой */}
-              {item.slug && (
-                <a
-                  href={`/cases/${item.slug}`}
-                  className="mt-3 inline-flex items-center gap-1.5 px-1 text-sm font-semibold text-emerald-400 transition-colors hover:text-emerald-300"
-                >
-                  Разбор кейса
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-              )}
+              <div className="mt-5 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+                {items.map((item, i) => (
+                  <CaseCard key={item.title} item={item} i={i} />
+                ))}
+              </div>
             </div>
-          </Reveal>
-        ))}
+          );
+        })}
       </div>
     </SectionWrapper>
   );
