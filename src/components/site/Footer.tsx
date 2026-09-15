@@ -32,7 +32,7 @@ export function Footer() {
           <a href="/blog" className="transition-colors hover:text-zinc-300">
             Блог
           </a>
-          <a href="/#faq" className="transition-colors hover:text-zinc-300">
+          <a href="/faq" className="transition-colors hover:text-zinc-300">
             FAQ
           </a>
           <a

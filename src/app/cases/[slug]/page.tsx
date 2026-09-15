@@ -34,10 +34,33 @@ export async function generateMetadata({
   const study = caseStudies[slug];
   const item = portfolioCases.find((c) => c.slug === slug);
   if (!study || !item) return {};
+  // openGraph переопределяется целиком (shallow-merge в Next) — задаём все поля
   return {
     title: `${item.title} — разбор кейса`,
     description: `${item.description} Задача, решение, инженерные детали и реальные Lighthouse-метрики.`,
     alternates: { canonical: `/cases/${slug}` },
+    openGraph: {
+      title: `${item.title} — разбор кейса`,
+      description: item.description,
+      url: `${siteConfig.url}/cases/${slug}`,
+      siteName: siteConfig.name,
+      locale: "ru_RU",
+      type: "website",
+      images: [
+        {
+          url: "/og-photo.jpg",
+          width: 1200,
+          height: 630,
+          alt: `${item.title} — веб-разработка`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${item.title} — разбор кейса`,
+      description: item.description,
+      images: ["/og-photo.jpg"],
+    },
   };
 }
 
@@ -51,8 +74,38 @@ export default async function CasePage({
   const item = portfolioCases.find((c) => c.slug === slug);
   if (!study || !item) notFound();
 
+  // BreadcrumbList (ревью 15.09.2026): путь Главная → Работы → Кейс
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Главная",
+        item: siteConfig.url,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Работы",
+        item: `${siteConfig.url}/#portfolio`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: item.title,
+        item: `${siteConfig.url}/cases/${slug}`,
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <Header />
       <main className="flex-1">
         {/* Шапка кейса */}

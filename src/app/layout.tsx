@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { MotionProvider } from "@/components/site/MotionProvider";
 import { TgButton } from "@/components/site/TgButton";
 import { YandexMetrika } from "@/components/site/YandexMetrika";
-import { siteConfig, faqItems, services } from "@/lib/data";
+import { siteConfig, services } from "@/lib/data";
 
 // next/font сам скачивает и оптимизирует шрифт,
 // кириллица включена отдельным subset-ом
@@ -121,16 +121,9 @@ const websiteJsonLd = {
   inLanguage: "ru-RU",
 };
 
-// FAQPage — шанс расширенного сниппета с вопросами в поисковой выдаче
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqItems.map((item) => ({
-    "@type": "Question",
-    name: item.question,
-    acceptedAnswer: { "@type": "Answer", text: item.answer },
-  })),
-};
+// FAQPage-разметка живёт не здесь, а на страницах, где вопросы реально
+// видны пользователю (главная, секция #faq) и на отдельной странице /faq —
+// так требует Google: разметка только там, где есть сам контент.
 
 export default function RootLayout({
   children,
@@ -140,7 +133,8 @@ export default function RootLayout({
       <body
         className={`${manrope.variable} font-sans bg-background text-foreground antialiased min-h-screen flex flex-col`}
       >
-        {/* JSON-LD для поисковиков (@graph: Person + LocalBusiness, WebSite, FAQPage) */}
+        {/* JSON-LD для поисковиков (@graph: Person + LocalBusiness, WebSite);
+            FAQPage — на главной и /faq, где реально есть вопросы */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personServiceJsonLd) }}
@@ -148,10 +142,6 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
         <MotionProvider>{children}</MotionProvider>
         <TgButton />

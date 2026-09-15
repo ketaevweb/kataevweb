@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Accordion,
   AccordionContent,
@@ -36,6 +37,16 @@ export function Faq() {
               </AccordionItem>
             ))}
           </Accordion>
+          <p className="mt-6 text-sm text-zinc-500">
+            Это краткая версия —{" "}
+            <Link
+              href="/faq"
+              className="font-medium text-emerald-400 underline-offset-4 transition-colors hover:text-emerald-300 hover:underline"
+            >
+              все вопросы на отдельной странице
+            </Link>
+            .
+          </p>
         </Reveal>
       </div>
     </SectionWrapper>
