@@ -41,6 +41,16 @@ export const DEMO_SITES: DemoSite[] = [
     title: "Barber Sem",
     kind: "Барбершоп · лендинг с онлайн-записью",
   },
+  {
+    // Стоматология деплоится ВНУТРИ контейнера kataevweb на basePath /dent
+    // (квота YC containers исчерпана) — поэтому origin на этот же домен.
+    // Бонус схемы: адресная строка, DOM и сеть — всё на kataevweb.ru,
+    // сторонних доменов нет вообще.
+    slug: "dent",
+    title: "Астра Дент",
+    kind: "Стоматология · концепт-редизайн с онлайн-записью",
+    origin: "https://kataevweb.ru/dent",
+  },
 ];
 
 export function getDemoSite(slug: string): DemoSite | undefined {

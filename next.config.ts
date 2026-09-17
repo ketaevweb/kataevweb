@@ -13,6 +13,17 @@ const nextConfig: NextConfig = {
       { source: "/calc", destination: "/calculator", permanent: true },
     ];
   },
+  // Демо стоматологии «Астра Дент» живёт в том же контейнере вторым
+  // Next-приложением на 127.0.0.1:3001 (basePath /dent). Реврайт работает
+  // как внутренний прокси: адрес, DOM и сеть — всё на kataevweb.ru.
+  async rewrites() {
+    return [
+      {
+        source: "/dent/:path*",
+        destination: "http://127.0.0.1:3001/dent/:path*",
+      },
+    ];
+  },
   async headers() {
     return [
       {
