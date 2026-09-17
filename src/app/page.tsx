@@ -5,6 +5,7 @@ import { Process } from "@/components/site/Process";
 import { Portfolio } from "@/components/site/Portfolio";
 import { BlogSection } from "@/components/site/BlogSection";
 import { Faq } from "@/components/site/Faq";
+import { FreeAudit } from "@/components/site/FreeAudit";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { StickyCta } from "@/components/site/StickyCta";
@@ -37,6 +38,7 @@ export default function Home() {
         <Portfolio />
         <BlogSection />
         <Faq />
+        <FreeAudit />
         <Contact />
       </main>
       <Footer />

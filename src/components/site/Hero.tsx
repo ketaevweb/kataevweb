@@ -46,6 +46,15 @@ export function Hero() {
             <p className="mx-auto mt-6 max-w-xl text-lg text-zinc-400">
               {hero.subtitle}
             </p>
+            {/* География (аудит 17.09): «Пермь» в шапке не должна сужать
+                аудиторию — удалённая работа по стране видна с первого экрана */}
+            <p className="mx-auto mt-3 flex items-center justify-center gap-2 text-sm text-zinc-500">
+              <span
+                className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400"
+                aria-hidden="true"
+              />
+              {hero.geo}
+            </p>
           </Reveal>
 
           <Reveal delay={0.3}>

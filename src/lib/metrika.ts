@@ -8,6 +8,8 @@
  *
  * Цели на сайте:
  *  - lead_form_submit    — отправлена форма заявки (Contact)
+ *  - audit_form_submit   — заявка на бесплатный аудит (FreeAudit, секция #audit)
+ *  - checklist_download  — скачан чек-лист «10 ошибок…» (FreeAudit)
  *  - calculator_to_contact — «Отправить расчёт» из калькулятора
  *  - telegram_click      — клик по плавающей TG-кнопке
  *  - pdf_download        — скачивание PDF-портфолио (/about, /calculator)

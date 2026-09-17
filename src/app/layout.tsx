@@ -17,9 +17,9 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: `${siteConfig.name} — сайты для бизнеса в ${siteConfig.cityIn}`,
+  title: `${siteConfig.name} — сайты для бизнеса в ${siteConfig.cityIn} и по всей России`,
   description:
-    "Разрабатываю сайты на Next.js: лендинги, визитки, магазины. От 30 000 ₽, срок от 7 дней.",
+    "Разрабатываю сайты на Next.js для бизнеса по всей России: лендинги, визитки, магазины. От 30 000 ₽, срок от 7 дней, работаю удалённо.",
   keywords: [
     "создание сайтов",
     "веб-разработчик",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${siteConfig.name} — сайты, которые приносят заявки`,
     description:
-      "Лендинги и корпоративные сайты на Next.js. От 30 000 ₽, срок от 7 дней.",
+      "Лендинги и корпоративные сайты на Next.js для бизнеса по всей России. От 30 000 ₽, срок от 7 дней.",
     url: siteConfig.url,
     siteName: siteConfig.name,
     locale: "ru_RU",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${siteConfig.name} — сайты для бизнеса`,
     description:
-      "Лендинги и корпоративные сайты на Next.js. От 30 000 ₽, срок от 7 дней.",
+      "Лендинги и корпоративные сайты на Next.js для бизнеса по всей России. От 30 000 ₽, срок от 7 дней.",
     images: ["/og-photo.jpg"],
   },
 };

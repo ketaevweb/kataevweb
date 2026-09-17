@@ -66,7 +66,7 @@ export function Services() {
         ))}
       </div>
 
-      {/* Мост к калькулятору: пусть посетитель прикинет бюджет сам */}
+      {/* Мост к калькулятору + подарок (аудит 17.09: «УТП — подчеркните сильнее») */}
       <Reveal delay={0.2}>
         <div className="mt-10 flex flex-col items-center justify-between gap-5 rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.05] p-7 text-center sm:flex-row sm:text-left">
           <p className="max-w-xl text-sm leading-relaxed text-zinc-300">
@@ -74,7 +74,12 @@ export function Services() {
             <span className="font-semibold text-emerald-300">
               Калькулятор за 30 секунд
             </span>{" "}
-            покажет сумму и срок — без звонка менеджера.
+            покажет сумму и срок — без звонка менеджера. А после запуска каждый
+            проект получает{" "}
+            <span className="font-semibold text-emerald-300">
+              3 месяца поддержки в подарок
+            </span>
+            : правки текстов, замена фото, мелкие доработки.
           </p>
           <a
             href="/calculator"

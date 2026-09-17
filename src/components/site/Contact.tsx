@@ -218,7 +218,9 @@ export function Contact() {
                   <span className="text-zinc-600">·</span>
                   <span>лендинг — за 7–10 дней</span>
                   <span className="text-zinc-600">·</span>
-                  <span>отвечаю в течение дня</span>
+                  <span className="font-semibold text-emerald-300">
+                    3 месяца поддержки в подарок
+                  </span>
                 </p>
 
                 {/* Honeypot против ботов: человек поле не видит и не заполняет */}

@@ -263,6 +263,41 @@ export default async function CasePage({
             </div>
           </Reveal>
 
+          {/* Прогноз эффекта (аудит 17.09): клиент покупает не сайт, а заявки.
+              Цифры — отраслевые ориентиры и прогноз, НЕ замеры: честность
+              сайта не позволяет выдавать их за факты. */}
+          <Reveal>
+            <div className="mt-10">
+              <h2 className="text-xl font-bold">Прогноз эффекта — в цифрах</h2>
+              <p className="mt-2 text-sm text-zinc-500">
+                Это не замеры, а отраслевые ориентиры и прогноз для типового
+                бизнеса этого сегмента — гарантировать цифры невозможно. Реальные
+                значения вашего сайта замерим Яндекс.Метрикой после запуска: то,
+                что здесь прогноз, там станет фактом.
+              </p>
+              <dl className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {study.forecast.items.map((metric) => (
+                  <div
+                    key={metric.label}
+                    className="rounded-2xl border border-white/10 bg-white/[0.02] p-5"
+                  >
+                    <dd className="text-2xl font-extrabold text-zinc-100">
+                      {metric.value}
+                    </dd>
+                    <dt className="mt-1.5 text-xs leading-snug text-zinc-500">
+                      {metric.label}
+                      {metric.hint && (
+                        <span className="mt-1 block text-[11px] text-zinc-600">
+                          {metric.hint}
+                        </span>
+                      )}
+                    </dt>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </Reveal>
+
           {/* Вердикт */}
           <Reveal>
             <div className="mt-10 rounded-3xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/10 to-transparent p-8 sm:p-10">
