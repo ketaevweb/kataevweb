@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { demoUrl, type DemoSite } from "@/lib/demo-sites";
 
@@ -13,6 +13,13 @@ import { demoUrl, type DemoSite } from "@/lib/demo-sites";
  */
 export function DemoViewer({ site }: { site: DemoSite }) {
   const [loaded, setLoaded] = useState(false);
+
+  // Страховка: если load фрейма случился до hydration (медленная сеть,
+  // кэшированный документ), onLoad не придёт — убираем спиннер по таймауту.
+  useEffect(() => {
+    const t = setTimeout(() => setLoaded(true), 8000);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <div className="flex h-[100dvh] flex-col bg-zinc-950">
