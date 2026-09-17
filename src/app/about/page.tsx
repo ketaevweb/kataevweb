@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight, ArrowUpRight, MessageCircle } from "lucide-react";
 import { about, siteConfig } from "@/lib/data";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
@@ -24,16 +24,28 @@ export default function AboutPage() {
           <div className="hero-glow absolute inset-0" aria-hidden="true" />
           <div className="relative mx-auto w-full max-w-6xl px-6 pb-16 pt-32 sm:pb-20">
             <div className="flex flex-col items-start gap-8 sm:flex-row sm:items-center">
-              {/* Аватар: путь берётся из about.photo (src/lib/data.ts).
-                  Сгенерированное фото — public/egor-kataev.webp; настоящее
-                  кладётся по тому же пути, код трогать не нужно. */}
+              {/* Аватар: QR-карточка Telegram (public/egor-kataev.webp) —
+                  настоящее фото + QR-код на профиль @kataevweb.
+                  Карточка кликабельна: ведёт в Telegram. */}
               <Reveal>
                 {about.photo ? (
-                  <img
-                    src={about.photo}
-                    alt={`${siteConfig.name} — фото`}
-                    className="h-28 w-28 rounded-3xl border border-white/10 object-cover sm:h-36 sm:w-36"
-                  />
+                  <a
+                    href={siteConfig.telegramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="QR-карточка Telegram @kataevweb — открыть профиль в новой вкладке"
+                    className="group inline-block"
+                  >
+                    <img
+                      src={about.photo}
+                      alt="Егор Катаев — фото и QR-код Telegram @kataevweb"
+                      className="h-28 w-auto rounded-2xl border border-white/10 object-contain transition-colors group-hover:border-emerald-500/40 sm:h-36"
+                    />
+                    <span className="mt-2 inline-flex items-center gap-1 text-xs text-zinc-500 transition-colors group-hover:text-emerald-400">
+                      Telegram: {siteConfig.telegram}
+                      <ArrowUpRight className="h-3 w-3" />
+                    </span>
+                  </a>
                 ) : (
                   <span
                     aria-hidden="true"

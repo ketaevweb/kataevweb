@@ -208,10 +208,10 @@ export default async function BlogPostPage({
             <div className="mt-14 flex flex-col items-start gap-5 rounded-2xl border border-white/10 bg-white/[0.02] p-7 sm:flex-row sm:items-center">
               <Image
                 src="/egor-kataev.webp"
-                alt={`${siteConfig.name} — автор блога`}
+                alt={`${siteConfig.name} — фото и QR-код Telegram @kataevweb`}
                 width={72}
-                height={72}
-                className="h-18 w-18 rounded-2xl border border-white/10 object-cover"
+                height={90}
+                className="h-18 w-auto rounded-2xl border border-white/10 object-contain"
               />
               <div>
                 <p className="font-bold">{siteConfig.name}</p>
