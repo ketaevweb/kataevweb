@@ -237,8 +237,8 @@ export default async function CasePage({
                 Метрики — замер Lighthouse 13 по живому адресу
               </h2>
               <p className="mt-2 text-sm text-zinc-500">
-                Эмуляция смартфона, замер от {metricsMeasuredAt}. CLS ноль
-                означает, что вёрстка не «прыгает» при загрузке.
+                Эмуляция смартфона, замер от {study.measuredAt ?? metricsMeasuredAt}.{" "}
+                CLS ноль означает, что вёрстка не «прыгает» при загрузке.
               </p>
               <dl className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
                 {study.metrics.map((metric) => (
