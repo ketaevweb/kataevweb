@@ -83,6 +83,9 @@ const personNode = {
     "https://github.com/ketaevweb",
   ],
   telephone: siteConfig.phone,
+  // Реквизиты самозанятого: taxID — штатное свойство Person (schema.org).
+  taxID: siteConfig.ownerInn,
+  email: siteConfig.email,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "заказ сайта",

@@ -14,7 +14,11 @@ export const siteConfig = {
   city: "Пермь",
   cityIn: "Перми", // город в предложном падеже для SEO-заголовка
   url: "https://kataevweb.ru", // ← основной домен портфолио (поддомены кейсов — ниже, в portfolioCases)
-  email: "kataevwebru@yandex.ru", // реальная почта для заявок и писем
+  email: "hello@kataevweb.ru", // доменная почта (Cloudflare Email Routing → яндекс-ящик)
+  // Реквизиты самозанятого — для футера, JSON-LD и документов.
+  fullName: "Катаев Егор Александрович",
+  taxStatus: "самозанятый (плательщик НПД)",
+  ownerInn: "590584225511",
   telegram: "@kataevweb", // реальный ник в Telegram
   telegramUrl: "https://t.me/kataevweb",
   phone: "+7 951 933-26-44", // реальный телефон: видно в контактах, футере и JSON-LD

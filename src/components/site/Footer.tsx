@@ -11,9 +11,14 @@ export function Footer() {
           <span className="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-500 text-xs font-extrabold text-zinc-950">
             {siteConfig.initials}
           </span>
-          <p className="text-sm text-zinc-400">
-            © {year} {siteConfig.name}
-          </p>
+          <div className="flex flex-col">
+            <p className="text-sm text-zinc-400">
+              © {year} {siteConfig.name}
+            </p>
+            <p className="text-xs text-zinc-600">
+              {siteConfig.taxStatus} · ИНН {siteConfig.ownerInn}
+            </p>
+          </div>
         </div>
 
         <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-zinc-500" aria-label="Навигация в подвале">
